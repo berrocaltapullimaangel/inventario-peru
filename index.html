@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
@@ -10,7 +11,9 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Inventario Perú</title>
+  <title>
+    Inventario Perú
+  </title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -35,6 +38,15 @@
       }
     }
 
+    th[data-sort] {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    th[data-sort]:hover {
+      background: #e2e8f0;
+    }
+
   </style>
 
 </head>
@@ -43,9 +55,9 @@
 <body class="min-h-screen text-slate-800">
 
 
-<!-- ============================================
+<!-- =============================================
      LOGIN / REGISTRO
-============================================ -->
+============================================= -->
 
 <div
   id="authScreen"
@@ -94,7 +106,7 @@
         Inventario Perú
       </h1>
 
-      <p class="text-slate-500 mt-1">
+      <p class="text-slate-500">
         Gestión de almacenes
       </p>
 
@@ -109,66 +121,45 @@
         Iniciar sesión
       </h2>
 
+
       <form
         id="loginForm"
         class="space-y-4"
       >
 
-        <div>
-
-          <label class="block text-sm font-medium mb-2">
-            Usuario
-          </label>
-
-          <input
-            id="loginUser"
-            type="text"
-            autocomplete="username"
-            required
-            placeholder="Ingrese su usuario"
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-              focus:outline-none
-              focus:ring-2
-              focus:ring-blue-500
-            "
-          >
-
-        </div>
+        <input
+          id="loginUser"
+          type="text"
+          required
+          autocomplete="username"
+          placeholder="Usuario"
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        >
 
 
-        <div>
-
-          <label class="block text-sm font-medium mb-2">
-            Contraseña
-          </label>
-
-          <input
-            id="loginPassword"
-            type="password"
-            autocomplete="current-password"
-            required
-            placeholder="Ingrese su contraseña"
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-              focus:outline-none
-              focus:ring-2
-              focus:ring-blue-500
-            "
-          >
-
-        </div>
+        <input
+          id="loginPassword"
+          type="password"
+          required
+          autocomplete="current-password"
+          placeholder="Contraseña"
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        >
 
 
         <div
           id="loginMessage"
-          class="hidden rounded-xl px-4 py-3 text-sm"
+          class="hidden"
         ></div>
 
 
@@ -178,7 +169,6 @@
           class="
             w-full
             bg-blue-600
-            hover:bg-blue-700
             text-white
             rounded-xl
             py-3
@@ -191,17 +181,15 @@
       </form>
 
 
-      <p class="text-center text-sm text-slate-500 mt-6">
+      <p class="text-center text-sm mt-6">
 
-        ¿No tienes una cuenta?
+        ¿No tienes cuenta?
 
         <button
           id="showRegister"
-          type="button"
           class="
             text-blue-600
-            font-semibold
-            hover:underline
+            font-bold
           "
         >
           Registrarse
@@ -229,112 +217,68 @@
         class="space-y-4"
       >
 
-        <div>
-
-          <label class="block text-sm font-medium mb-2">
-            Nombre completo
-          </label>
-
-          <input
-            id="registerName"
-            type="text"
-            required
-            placeholder="Ejemplo: Juan Pérez"
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-              focus:outline-none
-              focus:ring-2
-              focus:ring-blue-500
-            "
-          >
-
-        </div>
+        <input
+          id="registerName"
+          type="text"
+          required
+          placeholder="Nombre completo"
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        >
 
 
-        <div>
-
-          <label class="block text-sm font-medium mb-2">
-            Usuario
-          </label>
-
-          <input
-            id="registerUser"
-            type="text"
-            required
-            minlength="4"
-            placeholder="Ejemplo: jperez"
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-              focus:outline-none
-              focus:ring-2
-              focus:ring-blue-500
-            "
-          >
-
-        </div>
+        <input
+          id="registerUser"
+          type="text"
+          required
+          minlength="4"
+          placeholder="Usuario"
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        >
 
 
-        <div>
-
-          <label class="block text-sm font-medium mb-2">
-            Contraseña
-          </label>
-
-          <input
-            id="registerPassword"
-            type="password"
-            required
-            minlength="6"
-            placeholder="Mínimo 6 caracteres"
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-              focus:outline-none
-              focus:ring-2
-              focus:ring-blue-500
-            "
-          >
-
-        </div>
+        <input
+          id="registerPassword"
+          type="password"
+          required
+          minlength="6"
+          placeholder="Contraseña"
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        >
 
 
-        <div>
-
-          <label class="block text-sm font-medium mb-2">
-            Repetir contraseña
-          </label>
-
-          <input
-            id="registerPassword2"
-            type="password"
-            required
-            minlength="6"
-            placeholder="Repita su contraseña"
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-              focus:outline-none
-              focus:ring-2
-              focus:ring-blue-500
-            "
-          >
-
-        </div>
+        <input
+          id="registerPassword2"
+          type="password"
+          required
+          minlength="6"
+          placeholder="Repetir contraseña"
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        >
 
 
         <div
           id="registerMessage"
-          class="hidden rounded-xl px-4 py-3 text-sm"
+          class="hidden"
         ></div>
 
 
@@ -344,7 +288,6 @@
           class="
             w-full
             bg-emerald-600
-            hover:bg-emerald-700
             text-white
             rounded-xl
             py-3
@@ -357,17 +300,15 @@
       </form>
 
 
-      <p class="text-center text-sm text-slate-500 mt-6">
+      <p class="text-center text-sm mt-6">
 
-        ¿Ya tienes una cuenta?
+        ¿Ya tienes cuenta?
 
         <button
           id="showLogin"
-          type="button"
           class="
             text-blue-600
-            font-semibold
-            hover:underline
+            font-bold
           "
         >
           Iniciar sesión
@@ -383,17 +324,15 @@
 
 
 
-<!-- ============================================
-     APLICACIÓN ORIGINAL
-============================================ -->
+<!-- =============================================
+     APLICACIÓN
+============================================= -->
 
 <div
   id="appScreen"
   class="hidden"
 >
 
-
-<!-- HEADER -->
 
 <header class="bg-slate-950 text-white">
 
@@ -403,9 +342,9 @@
       class="
         flex
         flex-col
-        md:flex-row
-        md:items-center
-        md:justify-between
+        lg:flex-row
+        lg:items-center
+        lg:justify-between
         gap-4
       "
     >
@@ -423,14 +362,20 @@
       </div>
 
 
-      <div class="flex flex-wrap items-center gap-2">
+      <div
+        class="
+          flex
+          flex-wrap
+          items-center
+          gap-2
+        "
+      >
 
-
-        <div class="mr-2 text-right">
+        <div class="mr-3">
 
           <p
             id="loggedUserName"
-            class="text-sm font-semibold"
+            class="font-bold"
           ></p>
 
           <p
@@ -485,7 +430,6 @@
           class="
             px-4 py-2
             bg-red-600
-            hover:bg-red-700
             rounded-lg
             font-semibold
           "
@@ -503,8 +447,6 @@
 
 
 
-<!-- CONTENIDO -->
-
 <main class="max-w-7xl mx-auto px-4 py-8">
 
 
@@ -514,6 +456,7 @@
   ></div>
 
 
+  <!-- TARJETAS -->
 
   <div
     class="
@@ -526,8 +469,7 @@
     "
   >
 
-
-    <div class="bg-white rounded-xl p-5 shadow">
+    <div class="bg-white rounded-xl shadow p-5">
 
       <p class="text-sm text-slate-500">
         Productos
@@ -543,10 +485,10 @@
     </div>
 
 
-    <div class="bg-white rounded-xl p-5 shadow">
+    <div class="bg-white rounded-xl shadow p-5">
 
       <p class="text-sm text-slate-500">
-        Unidades
+        Stock teórico
       </p>
 
       <p
@@ -559,7 +501,7 @@
     </div>
 
 
-    <div class="bg-white rounded-xl p-5 shadow">
+    <div class="bg-white rounded-xl shadow p-5">
 
       <p class="text-sm text-slate-500">
         Stock bajo
@@ -567,7 +509,11 @@
 
       <p
         id="lowStockCount"
-        class="text-3xl font-bold text-red-600"
+        class="
+          text-3xl
+          font-bold
+          text-red-600
+        "
       >
         0
       </p>
@@ -575,7 +521,7 @@
     </div>
 
 
-    <div class="bg-white rounded-xl p-5 shadow">
+    <div class="bg-white rounded-xl shadow p-5">
 
       <p class="text-sm text-slate-500">
         Ubicaciones
@@ -593,6 +539,7 @@
   </div>
 
 
+  <!-- FILTROS -->
 
   <div
     class="
@@ -616,7 +563,7 @@
       <input
         id="searchInput"
         type="search"
-        placeholder="Buscar nombre o código..."
+        placeholder="Buscar producto o código..."
         class="
           border
           rounded-xl
@@ -651,7 +598,7 @@
       >
 
         <option value="">
-          Todos los estados
+          Todos
         </option>
 
         <option value="low">
@@ -669,6 +616,7 @@
   </div>
 
 
+  <!-- TABLA -->
 
   <div
     class="
@@ -691,7 +639,7 @@
 
       <div>
 
-        <h2 class="font-bold text-lg">
+        <h2 class="text-lg font-bold">
           Inventario
         </h2>
 
@@ -715,34 +663,66 @@
 
     <div class="overflow-x-auto">
 
-      <table class="w-full">
+      <table class="w-full whitespace-nowrap">
 
         <thead class="bg-slate-100">
 
           <tr>
 
-            <th class="px-4 py-3 text-left">
-              Código
+            <th
+              data-sort="codigo"
+              class="px-4 py-3 text-left"
+            >
+              Código ↕
             </th>
 
-            <th class="px-4 py-3 text-left">
-              Producto
+            <th
+              data-sort="producto"
+              class="px-4 py-3 text-left"
+            >
+              Producto ↕
             </th>
 
-            <th class="px-4 py-3 text-left">
-              Categoría
+            <th
+              data-sort="categoria"
+              class="px-4 py-3 text-left"
+            >
+              Categoría ↕
             </th>
 
-            <th class="px-4 py-3 text-left">
-              Ubicación
+            <th
+              data-sort="ubicacion"
+              class="px-4 py-3 text-left"
+            >
+              Ubicación ↕
             </th>
 
-            <th class="px-4 py-3 text-right">
-              Stock
+            <th
+              data-sort="stock"
+              class="px-4 py-3 text-right"
+            >
+              Stock ↕
             </th>
 
-            <th class="px-4 py-3">
-              Estado
+            <th
+              data-sort="stockAlmacen"
+              class="px-4 py-3 text-right"
+            >
+              Stock Almacén ↕
+            </th>
+
+            <th
+              data-sort="estadoConteo"
+              class="px-4 py-3 text-center"
+            >
+              Estado Conteo ↕
+            </th>
+
+            <th
+              data-sort="estadoStock"
+              class="px-4 py-3 text-center"
+            >
+              Estado Stock ↕
             </th>
 
           </tr>
@@ -778,9 +758,9 @@
 
 
 
-<!-- ============================================
+<!-- =============================================
      MODAL MOVIMIENTO
-============================================ -->
+============================================= -->
 
 <div
   id="movementModal"
@@ -788,8 +768,8 @@
     hidden
     fixed
     inset-0
-    bg-black/60
     z-50
+    bg-black/60
     overflow-y-auto
   "
 >
@@ -841,124 +821,83 @@
         class="space-y-4"
       >
 
+        <select
+          id="productSelect"
+          required
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        >
 
-        <div>
+          <option value="">
+            Seleccione producto
+          </option>
 
-          <label class="block mb-2">
-            Producto
-          </label>
-
-          <select
-            id="productSelect"
-            required
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-            "
-          >
-
-            <option value="">
-              Seleccione
-            </option>
-
-          </select>
-
-        </div>
+        </select>
 
 
-        <div>
+        <select
+          id="movementType"
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        >
 
-          <label class="block mb-2">
-            Tipo
-          </label>
+          <option value="entrada">
+            Entrada
+          </option>
 
-          <select
-            id="movementType"
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-            "
-          >
+          <option value="salida">
+            Salida
+          </option>
 
-            <option value="entrada">
-              Entrada
-            </option>
-
-            <option value="salida">
-              Salida
-            </option>
-
-          </select>
-
-        </div>
+        </select>
 
 
-        <div>
-
-          <label class="block mb-2">
-            Cantidad
-          </label>
-
-          <input
-            id="movementQuantity"
-            type="number"
-            min="1"
-            required
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-            "
-          >
-
-        </div>
+        <input
+          id="movementQuantity"
+          type="number"
+          min="1"
+          required
+          placeholder="Cantidad"
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        >
 
 
-        <div>
-
-          <label class="block mb-2">
-            Observación
-          </label>
-
-          <textarea
-            id="movementObservation"
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-            "
-          ></textarea>
-
-        </div>
+        <textarea
+          id="movementObservation"
+          placeholder="Observación"
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        ></textarea>
 
 
-        <div>
-
-          <label class="block mb-2">
-            Clave
-            <span class="text-slate-400">
-              opcional
-            </span>
-          </label>
-
-          <input
-            id="writeToken"
-            type="password"
-            class="
-              w-full
-              border
-              rounded-xl
-              px-4 py-3
-            "
-          >
-
-        </div>
+        <input
+          id="writeToken"
+          type="password"
+          placeholder="Clave opcional"
+          class="
+            w-full
+            border
+            rounded-xl
+            px-4 py-3
+          "
+        >
 
 
         <button
@@ -986,9 +925,9 @@
 
 
 
-<!-- ============================================
+<!-- =============================================
      INVENTARIO CÍCLICO
-============================================ -->
+============================================= -->
 
 <div
   id="cyclicModal"
@@ -996,8 +935,8 @@
     hidden
     fixed
     inset-0
-    bg-black/60
     z-50
+    bg-black/60
     overflow-y-auto
   "
 >
@@ -1016,33 +955,47 @@
       class="
         bg-white
         rounded-2xl
-        max-w-2xl
+        max-w-xl
         w-full
         p-6
       "
     >
 
-
       <div
         class="
           flex
           justify-between
-          items-center
+          items-start
           mb-6
         "
       >
 
         <div>
 
-          <h2 class="text-2xl font-bold">
-            Inventario Cíclico
+          <p
+            class="
+              text-sm
+              text-emerald-600
+              font-bold
+            "
+          >
+            INVENTARIO CÍCLICO
+          </p>
+
+          <h2
+            class="
+              text-2xl
+              font-bold
+            "
+          >
+            Conteo de posiciones
           </h2>
 
           <p
             id="cyclicProgress"
             class="text-slate-500"
           >
-            Cargando asignaciones
+            3 posiciones aleatorias
           </p>
 
         </div>
@@ -1058,34 +1011,45 @@
       </div>
 
 
+      <!-- INICIO -->
 
-      <div
-        id="cyclicLogin"
-        class="space-y-4"
-      >
+      <div id="cyclicStart">
 
         <div
           class="
             bg-slate-100
             rounded-xl
-            p-4
+            p-5
+            mb-5
           "
         >
 
           <p class="text-sm text-slate-500">
-            Usuario asignado
+            Usuario
           </p>
 
           <p
             id="cyclicLoggedUser"
-            class="font-bold"
+            class="text-lg font-bold"
           ></p>
+
+
+          <p
+            class="
+              text-sm
+              text-slate-500
+              mt-3
+            "
+          >
+            Se seleccionarán automáticamente
+            3 ubicaciones diferentes del inventario.
+          </p>
 
         </div>
 
 
         <button
-          id="loadAssignments"
+          id="startCyclic"
           class="
             w-full
             bg-emerald-600
@@ -1095,12 +1059,13 @@
             font-bold
           "
         >
-          Iniciar conteo
+          Iniciar tarea
         </button>
 
       </div>
 
 
+      <!-- TAREA -->
 
       <div
         id="cyclicTask"
@@ -1108,48 +1073,103 @@
       >
 
 
-        <div
-          class="
-            bg-slate-100
-            rounded-xl
-            p-4
-            mb-5
-          "
-        >
+        <!-- PROGRESO -->
 
-          <p class="text-sm text-slate-500">
-            Producto asignado
-          </p>
+        <div class="flex gap-2 mb-6">
 
-          <p
-            id="cyclicProduct"
-            class="text-xl font-bold"
-          ></p>
+          <div
+            id="step1"
+            class="
+              flex-1
+              h-2
+              bg-slate-200
+              rounded-full
+            "
+          ></div>
+
+          <div
+            id="step2"
+            class="
+              flex-1
+              h-2
+              bg-slate-200
+              rounded-full
+            "
+          ></div>
+
+          <div
+            id="step3"
+            class="
+              flex-1
+              h-2
+              bg-slate-200
+              rounded-full
+            "
+          ></div>
 
         </div>
 
 
+        <!-- UBICACIÓN -->
 
-        <div class="mb-5">
-
-          <label class="font-semibold">
-            1. Confirmar ubicación
-          </label>
+        <div
+          class="
+            border
+            rounded-xl
+            p-5
+            mb-4
+          "
+        >
 
           <p
-            id="expectedLocation"
             class="
               text-sm
-              text-slate-500
-              mt-1
-              mb-2
+              font-bold
+              text-blue-600
             "
-          ></p>
+          >
+            PASO 1
+          </p>
+
+          <h3 class="text-lg font-bold mb-3">
+            Ir a la ubicación
+          </h3>
+
+
+          <div
+            class="
+              bg-blue-50
+              rounded-xl
+              p-4
+              mb-3
+            "
+          >
+
+            <p
+              class="
+                text-xs
+                text-blue-600
+              "
+            >
+              UBICACIÓN ASIGNADA
+            </p>
+
+            <p
+              id="expectedLocation"
+              class="
+                text-2xl
+                font-bold
+              "
+            ></p>
+
+          </div>
+
 
           <input
             id="confirmedLocation"
             type="text"
-            placeholder="Ingrese la ubicación"
+            autocomplete="off"
+            placeholder="Confirme la ubicación"
             class="
               w-full
               border
@@ -1157,6 +1177,7 @@
               px-4 py-3
             "
           >
+
 
           <p
             id="locationStatus"
@@ -1166,25 +1187,45 @@
         </div>
 
 
+        <!-- CÓDIGO -->
 
-        <div class="mb-5">
+        <div
+          class="
+            border
+            rounded-xl
+            p-5
+            mb-4
+          "
+        >
 
-          <label class="font-semibold">
-            2. Confirmar código
-          </label>
+          <p
+            class="
+              text-sm
+              font-bold
+              text-violet-600
+            "
+          >
+            PASO 2
+          </p>
+
+          <h3 class="text-lg font-bold mb-3">
+            Confirmar código
+          </h3>
+
 
           <input
             id="confirmedCode"
             type="text"
-            placeholder="Escanee o ingrese código"
+            autocomplete="off"
+            placeholder="Escanee o escriba el código"
             class="
               w-full
               border
               rounded-xl
               px-4 py-3
-              mt-2
             "
           >
+
 
           <p
             id="codeStatus"
@@ -1194,105 +1235,53 @@
         </div>
 
 
+        <!-- CANTIDAD -->
 
         <div
           class="
-            grid
-            grid-cols-1
-            sm:grid-cols-3
-            gap-3
-            mb-6
+            border
+            rounded-xl
+            p-5
+            mb-5
           "
         >
 
+          <p
+            class="
+              text-sm
+              font-bold
+              text-amber-600
+            "
+          >
+            PASO 3
+          </p>
 
-          <div>
-
-            <label
-              class="
-                block
-                text-sm
-                font-semibold
-                mb-2
-              "
-            >
-              Stock
-            </label>
-
-            <div
-              id="cyclicStock"
-              class="
-                border
-                rounded-xl
-                px-4 py-3
-                bg-slate-100
-                font-bold
-                text-xl
-              "
-            >
-              0
-            </div>
-
-          </div>
+          <h3 class="text-lg font-bold mb-3">
+            Cantidad física
+          </h3>
 
 
-          <div>
-
-            <label
-              class="
-                block
-                text-sm
-                font-semibold
-                mb-2
-              "
-            >
-              Cantidad
-            </label>
-
-            <input
-              id="cyclicQuantity"
-              type="number"
-              min="0"
-              class="
-                w-full
-                border
-                rounded-xl
-                px-4 py-3
-                font-bold
-                text-xl
-              "
-            >
-
-          </div>
+          <input
+            id="cyclicQuantity"
+            type="number"
+            min="0"
+            step="1"
+            inputmode="numeric"
+            placeholder="Cantidad contada"
+            class="
+              w-full
+              border
+              rounded-xl
+              px-4 py-3
+              text-xl
+              font-bold
+            "
+          >
 
 
-          <div>
-
-            <label
-              class="
-                block
-                text-sm
-                font-semibold
-                mb-2
-              "
-            >
-              Estado
-            </label>
-
-            <div
-              id="cyclicStatus"
-              class="
-                rounded-xl
-                px-3 py-3
-                text-center
-                font-bold
-                bg-slate-100
-              "
-            >
-              —
-            </div>
-
-          </div>
+          <p class="text-xs text-slate-500 mt-2">
+            La cantidad puede ser diferente al stock teórico.
+          </p>
 
         </div>
 
@@ -1315,14 +1304,61 @@
 
       </div>
 
+
+      <!-- COMPLETADO -->
+
+      <div
+        id="cyclicCompleted"
+        class="
+          hidden
+          text-center
+          py-10
+        "
+      >
+
+        <div
+          class="
+            text-6xl
+            text-emerald-600
+            mb-4
+          "
+        >
+          ✓
+        </div>
+
+        <h3 class="text-2xl font-bold">
+          Tarea completada
+        </h3>
+
+        <p class="text-slate-500 mt-2">
+          Completaste las 3 ubicaciones.
+        </p>
+
+
+        <button
+          id="finishCyclic"
+          class="
+            mt-6
+            px-6 py-3
+            bg-emerald-600
+            text-white
+            rounded-xl
+            font-bold
+          "
+        >
+          Finalizar
+        </button>
+
+      </div>
+
     </div>
 
   </div>
 
 </div>
 
-</div>
 
+</div>
 
 
 <script>
@@ -1332,8 +1368,12 @@
  *************************************************/
 
 /*
- * AQUÍ DEBES PONER TU URL DE APPS SCRIPT.
+ * IMPORTANTE:
+ *
+ * REEMPLAZA ESTA URL
+ * POR TU URL REAL DE APPS SCRIPT.
  */
+
 const API_URL =
   'https://script.google.com/macros/s/AKfycbxtYdBElMw8xW43TLCOC-eQnf9cEpT7JmMTcfmzI-5bsS4dZkZnky4tshpTbFGwdZGY/exec';
 
@@ -1353,13 +1393,25 @@ let inventory =
 
 
 /*************************************************
- * AUTENTICACIÓN
+ * ORDENAMIENTO
+ *************************************************/
+
+let sortColumn =
+  '';
+
+let sortDirection =
+  'asc';
+
+
+/*************************************************
+ * LOGIN / REGISTRO
  *************************************************/
 
 const authScreen =
   document.getElementById(
     'authScreen'
   );
+
 
 const appScreen =
   document.getElementById(
@@ -1373,7 +1425,10 @@ document
   )
   .addEventListener(
     'click',
-    function() {
+    function(event) {
+
+      event.preventDefault();
+
 
       document
         .getElementById(
@@ -1400,7 +1455,10 @@ document
   )
   .addEventListener(
     'click',
-    function() {
+    function(event) {
+
+      event.preventDefault();
+
 
       document
         .getElementById(
@@ -1422,7 +1480,7 @@ document
 
 
 /*************************************************
- * REGISTRARSE
+ * REGISTRAR
  *************************************************/
 
 document
@@ -1431,157 +1489,111 @@ document
   )
   .addEventListener(
     'submit',
-    registerUser
-  );
+    async function(event) {
+
+      event.preventDefault();
 
 
-async function registerUser(
-  event
-) {
-
-  event.preventDefault();
-
-
-  const nombre =
-    document
-      .getElementById(
-        'registerName'
-      )
-      .value
-      .trim();
+      const nombre =
+        document
+          .getElementById(
+            'registerName'
+          )
+          .value
+          .trim();
 
 
-  const usuario =
-    document
-      .getElementById(
-        'registerUser'
-      )
-      .value
-      .trim();
+      const usuario =
+        document
+          .getElementById(
+            'registerUser'
+          )
+          .value
+          .trim();
 
 
-  const password =
-    document
-      .getElementById(
-        'registerPassword'
-      )
-      .value;
+      const password =
+        document
+          .getElementById(
+            'registerPassword'
+          )
+          .value;
 
 
-  const password2 =
-    document
-      .getElementById(
-        'registerPassword2'
-      )
-      .value;
+      const password2 =
+        document
+          .getElementById(
+            'registerPassword2'
+          )
+          .value;
 
 
-  if (
-    password !== password2
-  ) {
+      if (
+        password !== password2
+      ) {
 
-    showAuthMessage(
-      'registerMessage',
-      'Las contraseñas no coinciden',
-      false
-    );
+        showAuthMessage(
+          'registerMessage',
+          'Las contraseñas no coinciden',
+          false
+        );
 
-    return;
-  }
-
-
-  const button =
-    document.getElementById(
-      'registerButton'
-    );
+        return;
+      }
 
 
-  button.disabled = true;
-
-  button.textContent =
-    'Registrando...';
-
-
-  try {
-
-    validateApiUrl();
+      const button =
+        document.getElementById(
+          'registerButton'
+        );
 
 
-    const response =
-      await fetch(
-        API_URL,
-        {
+      button.disabled =
+        true;
 
-          method: 'POST',
 
-          headers: {
-            'Content-Type':
-              'text/plain;charset=utf-8'
-          },
+      button.textContent =
+        'Registrando...';
 
-          body:
-            JSON.stringify({
 
-              action:
-                'register',
+      try {
 
-              nombre:
-                nombre,
+        validateApiUrl();
 
-              usuario:
-                usuario,
 
-              password:
-                password
+        const response =
+          await apiPost({
 
-            })
+            action:
+              'register',
+
+            nombre:
+              nombre,
+
+            usuario:
+              usuario,
+
+            password:
+              password
+
+          });
+
+
+        if (
+          !response.ok
+        ) {
+
+          throw new Error(
+            response.error
+          );
         }
-      );
 
 
-    const result =
-      await response.json();
-
-
-    if (!result.ok) {
-
-      throw new Error(
-        result.error
-      );
-    }
-
-
-    showAuthMessage(
-      'registerMessage',
-      'Cuenta creada correctamente. Ya puedes iniciar sesión.',
-      true
-    );
-
-
-    document
-      .getElementById(
-        'registerForm'
-      )
-      .reset();
-
-
-    setTimeout(
-      function() {
-
-        document
-          .getElementById(
-            'registerPanel'
-          )
-          .classList
-          .add('hidden');
-
-
-        document
-          .getElementById(
-            'loginPanel'
-          )
-          .classList
-          .remove('hidden');
+        showAuthMessage(
+          'registerMessage',
+          'Cuenta creada correctamente',
+          true
+        );
 
 
         document
@@ -1591,28 +1603,51 @@ async function registerUser(
           .value =
             usuario;
 
-      },
-      800
-    );
+
+        setTimeout(
+          function() {
+
+            document
+              .getElementById(
+                'registerPanel'
+              )
+              .classList
+              .add('hidden');
 
 
-  } catch (error) {
+            document
+              .getElementById(
+                'loginPanel'
+              )
+              .classList
+              .remove('hidden');
 
-    showAuthMessage(
-      'registerMessage',
-      error.message,
-      false
-    );
+          },
+          700
+        );
 
 
-  } finally {
+      } catch (error) {
 
-    button.disabled = false;
+        showAuthMessage(
+          'registerMessage',
+          error.message,
+          false
+        );
 
-    button.textContent =
-      'Crear cuenta';
-  }
-}
+
+      } finally {
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          'Crear cuenta';
+      }
+
+    }
+  );
 
 
 /*************************************************
@@ -1625,130 +1660,111 @@ document
   )
   .addEventListener(
     'submit',
-    loginUser
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const usuario =
+        document
+          .getElementById(
+            'loginUser'
+          )
+          .value
+          .trim();
+
+
+      const password =
+        document
+          .getElementById(
+            'loginPassword'
+          )
+          .value;
+
+
+      const button =
+        document.getElementById(
+          'loginButton'
+        );
+
+
+      button.disabled =
+        true;
+
+
+      button.textContent =
+        'Ingresando...';
+
+
+      try {
+
+        const response =
+          await apiPost({
+
+            action:
+              'login',
+
+            usuario:
+              usuario,
+
+            password:
+              password
+
+          });
+
+
+        if (
+          !response.ok
+        ) {
+
+          throw new Error(
+            response.error
+          );
+        }
+
+
+        authToken =
+          response.data.token;
+
+
+        currentUser =
+          response.data.user;
+
+
+        localStorage.setItem(
+          'inventarioToken',
+          authToken
+        );
+
+
+        openApplication();
+
+
+      } catch (error) {
+
+        showAuthMessage(
+          'loginMessage',
+          error.message,
+          false
+        );
+
+
+      } finally {
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          'Iniciar sesión';
+      }
+
+    }
   );
 
 
-async function loginUser(
-  event
-) {
-
-  event.preventDefault();
-
-
-  const usuario =
-    document
-      .getElementById(
-        'loginUser'
-      )
-      .value
-      .trim();
-
-
-  const password =
-    document
-      .getElementById(
-        'loginPassword'
-      )
-      .value;
-
-
-  const button =
-    document.getElementById(
-      'loginButton'
-    );
-
-
-  button.disabled = true;
-
-  button.textContent =
-    'Ingresando...';
-
-
-  try {
-
-    validateApiUrl();
-
-
-    const response =
-      await fetch(
-        API_URL,
-        {
-
-          method: 'POST',
-
-          headers: {
-            'Content-Type':
-              'text/plain;charset=utf-8'
-          },
-
-          body:
-            JSON.stringify({
-
-              action:
-                'login',
-
-              usuario:
-                usuario,
-
-              password:
-                password
-
-            })
-        }
-      );
-
-
-    const result =
-      await response.json();
-
-
-    if (!result.ok) {
-
-      throw new Error(
-        result.error
-      );
-    }
-
-
-    authToken =
-      result.data.token;
-
-
-    currentUser =
-      result.data.user;
-
-
-    localStorage.setItem(
-      'inventarioToken',
-      authToken
-    );
-
-
-    openApplication();
-
-
-  } catch (error) {
-
-    showAuthMessage(
-      'loginMessage',
-      error.message,
-      false
-    );
-
-
-  } finally {
-
-    button.disabled = false;
-
-    button.textContent =
-      'Iniciar sesión';
-  }
-}
-
-
 /*************************************************
- * COMPROBAR SESIÓN EXISTENTE
+ * COMPROBAR SESIÓN
  *************************************************/
 
 async function checkExistingSession() {
@@ -1756,6 +1772,7 @@ async function checkExistingSession() {
   if (!authToken) {
 
     showLoginScreen();
+
     return;
   }
 
@@ -1783,11 +1800,11 @@ async function checkExistingSession() {
 
 
     if (
-      !result.ok ||
-      !result.authenticated
+      !result.ok
     ) {
 
       throw new Error(
+        result.error ||
         'Sesión inválida'
       );
     }
@@ -1807,9 +1824,13 @@ async function checkExistingSession() {
     );
 
 
-    authToken = '';
+    authToken =
+      '';
 
-    currentUser = null;
+
+    currentUser =
+      null;
+
 
     showLoginScreen();
   }
@@ -1817,7 +1838,7 @@ async function checkExistingSession() {
 
 
 /*************************************************
- * MOSTRAR APLICACIÓN
+ * ABRIR APP
  *************************************************/
 
 function openApplication() {
@@ -1849,14 +1870,6 @@ function openApplication() {
       currentUser.usuario;
 
 
-  document
-    .getElementById(
-      'cyclicLoggedUser'
-    )
-    .textContent =
-      currentUser.usuario;
-
-
   loadInventory();
 }
 
@@ -1884,219 +1897,67 @@ document
   )
   .addEventListener(
     'click',
-    logoutUser
-  );
+    async function() {
 
+      try {
 
-async function logoutUser() {
+        if (authToken) {
 
-  try {
+          await apiPost({
 
-    if (authToken) {
+            action:
+              'logout',
 
-      await fetch(
-        API_URL,
-        {
+            token:
+              authToken
 
-          method: 'POST',
-
-          headers: {
-            'Content-Type':
-              'text/plain;charset=utf-8'
-          },
-
-          body:
-            JSON.stringify({
-
-              action:
-                'logout',
-
-              token:
-                authToken
-
-            })
+          });
         }
-      );
+
+      } catch (error) {
+
+        console.error(error);
+
+      } finally {
+
+        localStorage.removeItem(
+          'inventarioToken'
+        );
+
+
+        location.reload();
+      }
+
     }
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-  } finally {
-
-    localStorage.removeItem(
-      'inventarioToken'
-    );
-
-
-    authToken = '';
-
-    currentUser = null;
-
-
-    location.reload();
-  }
-}
+  );
 
 
 /*************************************************
  * ELEMENTOS INVENTARIO
  *************************************************/
 
-const elements = {
-
-  tableBody:
-    document.getElementById(
-      'inventoryTableBody'
-    ),
-
-  search:
-    document.getElementById(
-      'searchInput'
-    ),
-
-  location:
-    document.getElementById(
-      'locationFilter'
-    ),
-
-  stock:
-    document.getElementById(
-      'stockFilter'
-    ),
-
-  loading:
-    document.getElementById(
-      'loadingIndicator'
-    ),
-
-  empty:
-    document.getElementById(
-      'emptyState'
-    ),
-
-  results:
-    document.getElementById(
-      'resultsLabel'
-    ),
-
-  totalProducts:
-    document.getElementById(
-      'totalProducts'
-    ),
-
-  totalStock:
-    document.getElementById(
-      'totalStock'
-    ),
-
-  lowStock:
-    document.getElementById(
-      'lowStockCount'
-    ),
-
-  locations:
-    document.getElementById(
-      'locationsCount'
-    ),
-
-  modal:
-    document.getElementById(
-      'movementModal'
-    ),
-
-  productSelect:
-    document.getElementById(
-      'productSelect'
-    ),
-
-  form:
-    document.getElementById(
-      'movementForm'
-    ),
-
-  submitButton:
-    document.getElementById(
-      'submitMovement'
-    ),
-
-  message:
-    document.getElementById(
-      'messageContainer'
-    )
-
-};
-
-
-/*************************************************
- * EVENTOS INVENTARIO
- *************************************************/
-
-elements.search.addEventListener(
-  'input',
-  renderInventory
-);
-
-elements.location.addEventListener(
-  'change',
-  renderInventory
-);
-
-elements.stock.addEventListener(
-  'change',
-  renderInventory
-);
-
-
-document
-  .getElementById(
-    'refreshButton'
-  )
-  .addEventListener(
-    'click',
-    loadInventory
+const tableBody =
+  document.getElementById(
+    'inventoryTableBody'
   );
 
 
-document
-  .getElementById(
-    'openMovementModal'
-  )
-  .addEventListener(
-    'click',
-    function() {
-
-      elements.modal
-        .classList
-        .remove('hidden');
-
-    }
+const searchInput =
+  document.getElementById(
+    'searchInput'
   );
 
 
-document
-  .getElementById(
-    'closeMovementModal'
-  )
-  .addEventListener(
-    'click',
-    function() {
-
-      elements.modal
-        .classList
-        .add('hidden');
-
-    }
+const locationFilter =
+  document.getElementById(
+    'locationFilter'
   );
 
 
-elements.form.addEventListener(
-  'submit',
-  registerMovement
-);
+const stockFilter =
+  document.getElementById(
+    'stockFilter'
+  );
 
 
 /*************************************************
@@ -2121,7 +1982,11 @@ async function loadInventory() {
 
         encodeURIComponent(
           authToken
-        )
+        ) +
+
+        '&_=' +
+
+        Date.now()
 
       );
 
@@ -2130,7 +1995,9 @@ async function loadInventory() {
       await response.json();
 
 
-    if (!result.ok) {
+    if (
+      !result.ok
+    ) {
 
       throw new Error(
         result.error
@@ -2153,22 +2020,6 @@ async function loadInventory() {
 
   } catch (error) {
 
-    if (
-      error.message
-        .toLowerCase()
-        .includes('sesión')
-    ) {
-
-      localStorage.removeItem(
-        'inventarioToken'
-      );
-
-      location.reload();
-
-      return;
-    }
-
-
     showMessage(
       error.message,
       'error'
@@ -2183,104 +2034,271 @@ async function loadInventory() {
 
 
 /*************************************************
- * FILTRAR
+ * FILTROS
+ *************************************************/
+
+searchInput.addEventListener(
+  'input',
+  renderInventory
+);
+
+
+locationFilter.addEventListener(
+  'change',
+  renderInventory
+);
+
+
+stockFilter.addEventListener(
+  'change',
+  renderInventory
+);
+
+
+/*************************************************
+ * ORDENAR COLUMNAS
+ *************************************************/
+
+document
+  .querySelectorAll(
+    '[data-sort]'
+  )
+  .forEach(
+    function(header) {
+
+      header.addEventListener(
+        'click',
+        function() {
+
+          const column =
+            header.dataset.sort;
+
+
+          if (
+            sortColumn === column
+          ) {
+
+            sortDirection =
+
+              sortDirection === 'asc'
+
+                ? 'desc'
+
+                : 'asc';
+
+          } else {
+
+            sortColumn =
+              column;
+
+            sortDirection =
+              'asc';
+          }
+
+
+          renderInventory();
+
+        }
+      );
+
+    }
+  );
+
+
+/*************************************************
+ * OBTENER INVENTARIO FILTRADO
  *************************************************/
 
 function getFilteredInventory() {
 
   const query =
-    elements.search.value
+    searchInput.value
       .trim()
       .toLowerCase();
 
 
   const location =
-    elements.location.value;
+    locationFilter.value;
 
 
-  const stockFilter =
-    elements.stock.value;
+  const stockState =
+    stockFilter.value;
 
 
-  return inventory.filter(
-    function(product) {
+  let products =
+    inventory.filter(
+      function(product) {
 
 
-      const matchesSearch =
+        const matchesSearch =
 
-        !query ||
+          !query ||
 
-        String(
-          product.producto || ''
-        )
-          .toLowerCase()
-          .includes(query)
+          String(
+            product.producto || ''
+          )
+            .toLowerCase()
+            .includes(query)
 
-        ||
+          ||
 
-        String(
-          product.codigo || ''
-        )
-          .toLowerCase()
-          .includes(query);
-
-
-      const matchesLocation =
-
-        !location ||
-
-        product.ubicacion ===
-        location;
+          String(
+            product.codigo || ''
+          )
+            .toLowerCase()
+            .includes(query);
 
 
-      const isLow =
+        const matchesLocation =
 
-        Number(
-          product.stock
-        )
+          !location ||
 
-        <=
+          product.ubicacion ===
+          location;
 
-        Number(
-          product.stockMinimo
+
+        const lowStock =
+
+          Number(
+            product.stock
+          )
+
+          <=
+
+          Number(
+            product.stockMinimo
+          );
+
+
+        let matchesStock =
+          true;
+
+
+        if (
+          stockState === 'low'
+        ) {
+
+          matchesStock =
+            lowStock;
+        }
+
+
+        if (
+          stockState === 'normal'
+        ) {
+
+          matchesStock =
+            !lowStock;
+        }
+
+
+        return (
+
+          matchesSearch &&
+          matchesLocation &&
+          matchesStock
+
         );
 
-
-      let matchesStock = true;
-
-
-      if (
-        stockFilter === 'low'
-      ) {
-
-        matchesStock =
-          isLow;
       }
+    );
 
 
-      if (
-        stockFilter === 'normal'
-      ) {
+  if (sortColumn) {
 
-        matchesStock =
-          !isLow;
-      }
+    products =
+      [...products].sort(
+        function(a, b) {
+
+          let valueA;
+          let valueB;
 
 
-      return (
+          if (
+            sortColumn ===
+            'estadoStock'
+          ) {
 
-        matchesSearch &&
-        matchesLocation &&
-        matchesStock
+            valueA =
 
+              Number(a.stock) <=
+              Number(a.stockMinimo)
+
+                ? 'STOCK BAJO'
+
+                : 'DISPONIBLE';
+
+
+            valueB =
+
+              Number(b.stock) <=
+              Number(b.stockMinimo)
+
+                ? 'STOCK BAJO'
+
+                : 'DISPONIBLE';
+
+          } else {
+
+            valueA =
+              a[sortColumn];
+
+            valueB =
+              b[sortColumn];
+          }
+
+
+          if (
+            typeof valueA === 'number' &&
+            typeof valueB === 'number'
+          ) {
+
+            return sortDirection === 'asc'
+
+              ? valueA - valueB
+
+              : valueB - valueA;
+          }
+
+
+          const textA =
+            String(
+              valueA ?? ''
+            )
+              .toLowerCase();
+
+
+          const textB =
+            String(
+              valueB ?? ''
+            )
+              .toLowerCase();
+
+
+          const result =
+            textA.localeCompare(
+              textB,
+              'es'
+            );
+
+
+          return sortDirection === 'asc'
+
+            ? result
+
+            : -result;
+
+        }
       );
-    }
-  );
+  }
+
+
+  return products;
 }
 
 
 /*************************************************
- * RENDER INVENTARIO
+ * RENDERIZAR TABLA
  *************************************************/
 
 function renderInventory() {
@@ -2289,16 +2307,24 @@ function renderInventory() {
     getFilteredInventory();
 
 
-  elements.tableBody.innerHTML =
+  tableBody.innerHTML =
     '';
 
 
-  elements.results.textContent =
-    products.length +
-    ' productos';
+  document
+    .getElementById(
+      'resultsLabel'
+    )
+    .textContent =
+
+      products.length +
+      ' productos';
 
 
-  elements.empty
+  document
+    .getElementById(
+      'emptyState'
+    )
     .classList
     .toggle(
       'hidden',
@@ -2308,7 +2334,6 @@ function renderInventory() {
 
   products.forEach(
     function(product) {
-
 
       const stock =
         Number(
@@ -2332,10 +2357,104 @@ function renderInventory() {
         );
 
 
-      row.className =
+      if (low) {
+
+        row.className =
+          'bg-red-50';
+      }
+
+
+      const stockAlmacenText =
+
+        product.stockAlmacen === '' ||
+        product.stockAlmacen === null
+
+          ? '—'
+
+          : product.stockAlmacen;
+
+
+      let conteoHtml =
+        '<span class="text-slate-400">—</span>';
+
+
+      if (
+        product.estadoConteo ===
+        'CONFORME'
+      ) {
+
+        conteoHtml = `
+          <span
+            class="
+              px-2 py-1
+              rounded-full
+              bg-emerald-100
+              text-emerald-700
+              text-xs
+              font-bold
+            "
+          >
+            CONFORME
+          </span>
+        `;
+      }
+
+
+      if (
+        product.estadoConteo ===
+        'NO CONFORME'
+      ) {
+
+        conteoHtml = `
+          <span
+            class="
+              px-2 py-1
+              rounded-full
+              bg-red-100
+              text-red-700
+              text-xs
+              font-bold
+            "
+          >
+            NO CONFORME
+          </span>
+        `;
+      }
+
+
+      const stockStatusHtml =
+
         low
-          ? 'bg-red-50'
-          : '';
+
+          ? `
+            <span
+              class="
+                px-2 py-1
+                rounded-full
+                bg-red-100
+                text-red-700
+                text-xs
+                font-bold
+              "
+            >
+              STOCK BAJO
+            </span>
+          `
+
+          : `
+            <span
+              class="
+                px-2 py-1
+                rounded-full
+                bg-emerald-100
+                text-emerald-700
+                text-xs
+                font-bold
+              "
+            >
+              DISPONIBLE
+            </span>
+          `;
 
 
       row.innerHTML = `
@@ -2360,50 +2479,31 @@ function renderInventory() {
           ${stock}
         </td>
 
-        <td class="px-4 py-3 text-center">
-
-          ${
-            low
-
-            ? `
-              <span
-                class="
-                  px-2 py-1
-                  rounded-full
-                  bg-red-100
-                  text-red-700
-                  text-xs
-                  font-bold
-                "
-              >
-                STOCK BAJO
-              </span>
-            `
-
-            : `
-              <span
-                class="
-                  px-2 py-1
-                  rounded-full
-                  bg-emerald-100
-                  text-emerald-700
-                  text-xs
-                  font-bold
-                "
-              >
-                DISPONIBLE
-              </span>
-            `
-          }
-
+        <td
+          class="
+            px-4 py-3
+            text-right
+            font-bold
+          "
+        >
+          ${stockAlmacenText}
         </td>
+
+        <td class="px-4 py-3 text-center">
+          ${conteoHtml}
+        </td>
+
+        <td class="px-4 py-3 text-center">
+          ${stockStatusHtml}
+        </td>
+
       `;
 
 
-      elements.tableBody
-        .appendChild(
-          row
-        );
+      tableBody.appendChild(
+        row
+      );
+
     }
   );
 }
@@ -2415,48 +2515,75 @@ function renderInventory() {
 
 function updateDashboard() {
 
-  elements.totalProducts.textContent =
-    inventory.length;
+  document
+    .getElementById(
+      'totalProducts'
+    )
+    .textContent =
+      inventory.length;
 
 
-  elements.totalStock.textContent =
-    inventory.reduce(
-      function(sum, item) {
+  document
+    .getElementById(
+      'totalStock'
+    )
+    .textContent =
+      inventory.reduce(
+        function(total, product) {
 
-        return (
-          sum +
-          Number(
-            item.stock || 0
+          return (
+            total +
+            Number(
+              product.stock || 0
+            )
+          );
+
+        },
+        0
+      );
+
+
+  document
+    .getElementById(
+      'lowStockCount'
+    )
+    .textContent =
+      inventory.filter(
+        function(product) {
+
+          return (
+
+            Number(
+              product.stock
+            )
+
+            <=
+
+            Number(
+              product.stockMinimo
+            )
+
+          );
+
+        }
+      ).length;
+
+
+  document
+    .getElementById(
+      'locationsCount'
+    )
+    .textContent =
+      new Set(
+        inventory
+          .map(
+            function(product) {
+
+              return product.ubicacion;
+            }
           )
-        );
-      },
-      0
-    );
-
-
-  elements.lowStock.textContent =
-    inventory.filter(
-      function(item) {
-
-        return (
-          Number(item.stock) <=
-          Number(item.stockMinimo)
-        );
-      }
-    ).length;
-
-
-  elements.locations.textContent =
-    new Set(
-      inventory
-        .map(
-          function(item) {
-
-            return item.ubicacion;
-          }
-        )
-        .filter(Boolean)
-    ).size;
+          .filter(Boolean)
+      ).size;
 }
 
 
@@ -2466,22 +2593,27 @@ function updateDashboard() {
 
 function fillLocationFilter() {
 
+  const selected =
+    locationFilter.value;
+
+
   const locations =
     [
       ...new Set(
         inventory
           .map(
-            function(item) {
+            function(product) {
 
-              return item.ubicacion;
+              return product.ubicacion;
             }
           )
           .filter(Boolean)
       )
-    ];
+    ]
+      .sort();
 
 
-  elements.location.innerHTML =
+  locationFilter.innerHTML =
     '<option value="">Todas las ubicaciones</option>';
 
 
@@ -2502,23 +2634,40 @@ function fillLocationFilter() {
         location;
 
 
-      elements.location
-        .appendChild(
-          option
-        );
+      locationFilter.appendChild(
+        option
+      );
+
     }
   );
+
+
+  if (
+    locations.includes(
+      selected
+    )
+  ) {
+
+    locationFilter.value =
+      selected;
+  }
 }
 
 
 /*************************************************
- * PRODUCTOS
+ * SELECT PRODUCTOS
  *************************************************/
 
 function fillProductSelect() {
 
-  elements.productSelect.innerHTML =
-    '<option value="">Seleccione</option>';
+  const select =
+    document.getElementById(
+      'productSelect'
+    );
+
+
+  select.innerHTML =
+    '<option value="">Seleccione producto</option>';
 
 
   inventory.forEach(
@@ -2537,258 +2686,226 @@ function fillProductSelect() {
       option.textContent =
 
         product.codigo +
+
         ' - ' +
+
         product.producto +
+
         ' | Stock: ' +
+
         product.stock;
 
 
-      elements.productSelect
-        .appendChild(
-          option
-        );
+      select.appendChild(
+        option
+      );
+
     }
   );
 }
 
 
 /*************************************************
+ * ACTUALIZAR
+ *************************************************/
+
+document
+  .getElementById(
+    'refreshButton'
+  )
+  .addEventListener(
+    'click',
+    loadInventory
+  );
+
+
+/*************************************************
  * MOVIMIENTO
  *************************************************/
 
-async function registerMovement(
-  event
-) {
-
-  event.preventDefault();
-
-
-  const codigo =
-    elements.productSelect.value;
+const movementModal =
+  document.getElementById(
+    'movementModal'
+  );
 
 
-  const tipo =
-    document
-      .getElementById(
-        'movementType'
-      )
-      .value;
+document
+  .getElementById(
+    'openMovementModal'
+  )
+  .addEventListener(
+    'click',
+    function() {
 
-
-  const cantidad =
-    Number(
-      document
-        .getElementById(
-          'movementQuantity'
-        )
-        .value
-    );
-
-
-  const observacion =
-    document
-      .getElementById(
-        'movementObservation'
-      )
-      .value;
-
-
-  const writeToken =
-    document
-      .getElementById(
-        'writeToken'
-      )
-      .value;
-
-
-  try {
-
-    elements.submitButton.disabled =
-      true;
-
-
-    elements.submitButton.textContent =
-      'Guardando...';
-
-
-    const response =
-      await fetch(
-        API_URL,
-        {
-
-          method: 'POST',
-
-          headers: {
-            'Content-Type':
-              'text/plain;charset=utf-8'
-          },
-
-          body:
-            JSON.stringify({
-
-              action:
-                'movement',
-
-              token:
-                authToken,
-
-              writeToken:
-                writeToken,
-
-              codigo:
-                codigo,
-
-              tipo:
-                tipo,
-
-              cantidad:
-                cantidad,
-
-              observacion:
-                observacion
-
-            })
-        }
-      );
-
-
-    const result =
-      await response.json();
-
-
-    if (!result.ok) {
-
-      throw new Error(
-        result.error
-      );
+      movementModal
+        .classList
+        .remove('hidden');
     }
+  );
 
 
-    elements.modal
-      .classList
-      .add('hidden');
+document
+  .getElementById(
+    'closeMovementModal'
+  )
+  .addEventListener(
+    'click',
+    function() {
+
+      movementModal
+        .classList
+        .add('hidden');
+    }
+  );
 
 
-    elements.form.reset();
+document
+  .getElementById(
+    'movementForm'
+  )
+  .addEventListener(
+    'submit',
+    async function(event) {
+
+      event.preventDefault();
 
 
-    showMessage(
-      'Movimiento registrado correctamente',
-      'success'
-    );
+      const button =
+        document.getElementById(
+          'submitMovement'
+        );
 
 
-    await loadInventory();
+      button.disabled =
+        true;
 
 
-  } catch (error) {
-
-    showMessage(
-      error.message,
-      'error'
-    );
+      button.textContent =
+        'Guardando...';
 
 
-  } finally {
+      try {
 
-    elements.submitButton.disabled =
-      false;
+        const result =
+          await apiPost({
+
+            action:
+              'movement',
+
+            token:
+              authToken,
+
+            writeToken:
+              document
+                .getElementById(
+                  'writeToken'
+                )
+                .value,
+
+            codigo:
+              document
+                .getElementById(
+                  'productSelect'
+                )
+                .value,
+
+            tipo:
+              document
+                .getElementById(
+                  'movementType'
+                )
+                .value,
+
+            cantidad:
+              Number(
+                document
+                  .getElementById(
+                    'movementQuantity'
+                  )
+                  .value
+              ),
+
+            observacion:
+              document
+                .getElementById(
+                  'movementObservation'
+                )
+                .value
+
+          });
 
 
-    elements.submitButton.textContent =
-      'Registrar';
-  }
-}
+        if (!result.ok) {
+
+          throw new Error(
+            result.error
+          );
+        }
+
+
+        movementModal
+          .classList
+          .add('hidden');
+
+
+        document
+          .getElementById(
+            'movementForm'
+          )
+          .reset();
+
+
+        showMessage(
+          'Movimiento registrado correctamente',
+          'success'
+        );
+
+
+        await loadInventory();
+
+
+      } catch (error) {
+
+        showMessage(
+          error.message,
+          'error'
+        );
+
+
+      } finally {
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          'Registrar';
+      }
+
+    }
+  );
 
 
 /*************************************************
  * INVENTARIO CÍCLICO
  *************************************************/
 
+const cyclicModal =
+  document.getElementById(
+    'cyclicModal'
+  );
+
+
 let cyclicAssignments =
   [];
+
 
 let cyclicCurrentIndex =
   0;
 
 
-const cyclic = {
-
-  modal:
-    document.getElementById(
-      'cyclicModal'
-    ),
-
-  login:
-    document.getElementById(
-      'cyclicLogin'
-    ),
-
-  task:
-    document.getElementById(
-      'cyclicTask'
-    ),
-
-  progress:
-    document.getElementById(
-      'cyclicProgress'
-    ),
-
-  product:
-    document.getElementById(
-      'cyclicProduct'
-    ),
-
-  expectedLocation:
-    document.getElementById(
-      'expectedLocation'
-    ),
-
-  location:
-    document.getElementById(
-      'confirmedLocation'
-    ),
-
-  locationStatus:
-    document.getElementById(
-      'locationStatus'
-    ),
-
-  code:
-    document.getElementById(
-      'confirmedCode'
-    ),
-
-  codeStatus:
-    document.getElementById(
-      'codeStatus'
-    ),
-
-  stock:
-    document.getElementById(
-      'cyclicStock'
-    ),
-
-  quantity:
-    document.getElementById(
-      'cyclicQuantity'
-    ),
-
-  status:
-    document.getElementById(
-      'cyclicStatus'
-    ),
-
-  next:
-    document.getElementById(
-      'cyclicNext'
-    )
-
-};
-
-
 /*************************************************
- * ABRIR CÍCLICO
+ * ABRIR
  *************************************************/
 
 document
@@ -2799,9 +2916,7 @@ document
     'click',
     function() {
 
-      cyclic.modal
-        .classList
-        .remove('hidden');
+      resetCyclic();
 
 
       document
@@ -2812,9 +2927,9 @@ document
           currentUser.usuario;
 
 
-      cyclic.progress.textContent =
-        'Usuario: ' +
-        currentUser.usuario;
+      cyclicModal
+        .classList
+        .remove('hidden');
 
     }
   );
@@ -2828,16 +2943,20 @@ document
     'click',
     function() {
 
-      cyclic.modal
+      cyclicModal
         .classList
         .add('hidden');
     }
   );
 
 
+/*************************************************
+ * INICIAR TAREA
+ *************************************************/
+
 document
   .getElementById(
-    'loadAssignments'
+    'startCyclic'
   )
   .addEventListener(
     'click',
@@ -2845,32 +2964,21 @@ document
   );
 
 
-cyclic.location.addEventListener(
-  'input',
-  validateCyclicTask
-);
-
-cyclic.code.addEventListener(
-  'input',
-  validateCyclicTask
-);
-
-cyclic.quantity.addEventListener(
-  'input',
-  validateCyclicTask
-);
-
-cyclic.next.addEventListener(
-  'click',
-  saveCyclicTask
-);
-
-
-/*************************************************
- * CARGAR ASIGNACIONES
- *************************************************/
-
 async function loadCyclicAssignments() {
+
+  const button =
+    document.getElementById(
+      'startCyclic'
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    'Generando posiciones...';
+
 
   try {
 
@@ -2885,7 +2993,11 @@ async function loadCyclicAssignments() {
 
         encodeURIComponent(
           authToken
-        )
+        ) +
+
+        '&_=' +
+
+        Date.now()
 
       );
 
@@ -2906,22 +3018,13 @@ async function loadCyclicAssignments() {
       result.data || [];
 
 
-    cyclicAssignments =
-      cyclicAssignments.slice(
-        0,
-        3
-      );
-
-
     if (
-      cyclicAssignments.length === 0
+      cyclicAssignments.length !== 3
     ) {
 
-      alert(
-        'No tienes tareas pendientes asignadas'
+      throw new Error(
+        'No se pudieron generar las 3 posiciones'
       );
-
-      return;
     }
 
 
@@ -2929,12 +3032,18 @@ async function loadCyclicAssignments() {
       0;
 
 
-    cyclic.login
+    document
+      .getElementById(
+        'cyclicStart'
+      )
       .classList
       .add('hidden');
 
 
-    cyclic.task
+    document
+      .getElementById(
+        'cyclicTask'
+      )
       .classList
       .remove('hidden');
 
@@ -2947,12 +3056,22 @@ async function loadCyclicAssignments() {
     alert(
       error.message
     );
+
+
+  } finally {
+
+    button.disabled =
+      false;
+
+
+    button.textContent =
+      'Iniciar tarea';
   }
 }
 
 
 /*************************************************
- * MOSTRAR TAREA
+ * MOSTRAR POSICIÓN
  *************************************************/
 
 function showCyclicTask() {
@@ -2963,77 +3082,182 @@ function showCyclicTask() {
     ];
 
 
-  cyclic.progress.textContent =
-
-    'Asignación ' +
-
-    (
-      cyclicCurrentIndex +
-      1
+  document
+    .getElementById(
+      'cyclicProgress'
     )
+    .textContent =
 
-    +
+      'Posición ' +
 
-    ' de ' +
+      (
+        cyclicCurrentIndex +
+        1
+      )
 
-    cyclicAssignments.length;
+      +
 
-
-  cyclic.product.textContent =
-    assignment.producto;
-
-
-  cyclic.expectedLocation.textContent =
-
-    'Ubicación asignada: ' +
-
-    assignment.ubicacion;
+      ' de 3';
 
 
-  cyclic.stock.textContent =
-    assignment.stock;
+  document
+    .getElementById(
+      'expectedLocation'
+    )
+    .textContent =
+      assignment.ubicacion;
 
 
-  cyclic.location.value =
-    '';
-
-  cyclic.code.value =
-    '';
-
-  cyclic.quantity.value =
-    '';
+  document
+    .getElementById(
+      'confirmedLocation'
+    )
+    .value =
+      '';
 
 
-  cyclic.locationStatus.textContent =
-    '';
-
-  cyclic.codeStatus.textContent =
-    '';
-
-
-  cyclic.status.textContent =
-    '—';
+  document
+    .getElementById(
+      'confirmedCode'
+    )
+    .value =
+      '';
 
 
-  cyclic.status.className =
-    'rounded-xl px-3 py-3 text-center font-bold bg-slate-100';
+  document
+    .getElementById(
+      'cyclicQuantity'
+    )
+    .value =
+      '';
 
 
-  cyclic.next.disabled =
-    true;
+  document
+    .getElementById(
+      'locationStatus'
+    )
+    .textContent =
+      '';
 
 
-  cyclic.next.textContent =
-    'Siguiente';
+  document
+    .getElementById(
+      'codeStatus'
+    )
+    .textContent =
+      '';
 
 
-  cyclic.location.focus();
+  document
+    .getElementById(
+      'cyclicNext'
+    )
+    .disabled =
+      true;
+
+
+  document
+    .getElementById(
+      'cyclicNext'
+    )
+    .textContent =
+
+      cyclicCurrentIndex === 2
+
+        ? 'Completar'
+
+        : 'Siguiente';
+
+
+  updateCyclicProgress();
+
+
+  document
+    .getElementById(
+      'confirmedLocation'
+    )
+    .focus();
 }
 
 
 /*************************************************
- * VALIDAR CÍCLICO
+ * PROGRESO
  *************************************************/
+
+function updateCyclicProgress() {
+
+  const steps = [
+
+    document.getElementById(
+      'step1'
+    ),
+
+    document.getElementById(
+      'step2'
+    ),
+
+    document.getElementById(
+      'step3'
+    )
+
+  ];
+
+
+  steps.forEach(
+    function(step, index) {
+
+      step.className =
+
+        index <= cyclicCurrentIndex
+
+          ? 'flex-1 h-2 bg-emerald-500 rounded-full'
+
+          : 'flex-1 h-2 bg-slate-200 rounded-full';
+
+    }
+  );
+}
+
+
+/*************************************************
+ * VALIDACIÓN CÍCLICA
+ *************************************************/
+
+const confirmedLocation =
+  document.getElementById(
+    'confirmedLocation'
+  );
+
+
+const confirmedCode =
+  document.getElementById(
+    'confirmedCode'
+  );
+
+
+const cyclicQuantity =
+  document.getElementById(
+    'cyclicQuantity'
+  );
+
+
+confirmedLocation.addEventListener(
+  'input',
+  validateCyclicTask
+);
+
+
+confirmedCode.addEventListener(
+  'input',
+  validateCyclicTask
+);
+
+
+cyclicQuantity.addEventListener(
+  'input',
+  validateCyclicTask
+);
+
 
 function validateCyclicTask() {
 
@@ -3050,157 +3274,157 @@ function validateCyclicTask() {
 
   const locationMatches =
 
-    normalizeCyclic(
-      cyclic.location.value
+    normalizeText(
+      confirmedLocation.value
     )
 
     ===
 
-    normalizeCyclic(
+    normalizeText(
       assignment.ubicacion
     );
 
 
   if (
-    cyclic.location.value.trim()
+    !confirmedLocation.value.trim()
   ) {
 
-    cyclic.locationStatus.textContent =
+    document
+      .getElementById(
+        'locationStatus'
+      )
+      .textContent =
+        '';
 
-      locationMatches
-        ? '✓ Ubicación confirmada'
-        : '✕ Ubicación incorrecta';
+  } else if (
+    locationMatches
+  ) {
 
-
-    cyclic.locationStatus.className =
-
-      locationMatches
-        ? 'text-sm mt-2 text-emerald-600 font-semibold'
-        : 'text-sm mt-2 text-red-600 font-semibold';
+    document
+      .getElementById(
+        'locationStatus'
+      )
+      .innerHTML =
+        '<span class="text-emerald-600 font-bold">✓ Ubicación confirmada</span>';
 
   } else {
 
-    cyclic.locationStatus.textContent =
-      '';
+    document
+      .getElementById(
+        'locationStatus'
+      )
+      .innerHTML =
+        '<span class="text-red-600 font-bold">✕ Ubicación incorrecta</span>';
   }
 
 
   const codeMatches =
 
-    normalizeCyclic(
-      cyclic.code.value
+    normalizeText(
+      confirmedCode.value
     )
 
     ===
 
-    normalizeCyclic(
+    normalizeText(
       assignment.codigo
     );
 
 
   if (
-    cyclic.code.value.trim()
+    !confirmedCode.value.trim()
   ) {
 
-    cyclic.codeStatus.textContent =
+    document
+      .getElementById(
+        'codeStatus'
+      )
+      .textContent =
+        '';
 
-      codeMatches
-        ? '✓ Producto confirmado'
-        : '✕ Código incorrecto';
+  } else if (
+    codeMatches
+  ) {
 
-
-    cyclic.codeStatus.className =
-
-      codeMatches
-        ? 'text-sm mt-2 text-emerald-600 font-semibold'
-        : 'text-sm mt-2 text-red-600 font-semibold';
-
-  } else {
-
-    cyclic.codeStatus.textContent =
-      '';
-  }
-
-
-  const quantityText =
-    cyclic.quantity.value;
-
-
-  const hasQuantity =
-
-    quantityText !== ''
-
-    &&
-
-    Number(
-      quantityText
-    ) >= 0;
-
-
-  if (hasQuantity) {
-
-    const counted =
-      Number(
-        quantityText
-      );
-
-
-    const stock =
-      Number(
-        assignment.stock
-      );
-
-
-    if (
-      counted === stock
-    ) {
-
-      cyclic.status.textContent =
-        'CONFORME';
-
-
-      cyclic.status.className =
-        'rounded-xl px-3 py-3 text-center font-bold bg-emerald-100 text-emerald-700';
-
-    } else {
-
-      cyclic.status.textContent =
-        'NO CONFORME';
-
-
-      cyclic.status.className =
-        'rounded-xl px-3 py-3 text-center font-bold bg-red-100 text-red-700';
-    }
+    document
+      .getElementById(
+        'codeStatus'
+      )
+      .innerHTML =
+        '<span class="text-emerald-600 font-bold">✓ Código confirmado</span>';
 
   } else {
 
-    cyclic.status.textContent =
-      '—';
-
-
-    cyclic.status.className =
-      'rounded-xl px-3 py-3 text-center font-bold bg-slate-100';
+    document
+      .getElementById(
+        'codeStatus'
+      )
+      .innerHTML =
+        '<span class="text-red-600 font-bold">✕ Código incorrecto</span>';
   }
 
 
   /*
-   * NO CONFORME NO BLOQUEA.
+   * CANTIDAD:
+   * NO TIENE QUE COINCIDIR.
    */
-  cyclic.next.disabled =
 
-    !(
+  const quantity =
+    cyclicQuantity.value;
 
-      locationMatches &&
-      codeMatches &&
-      hasQuantity
 
-    );
+  const validQuantity =
+
+    quantity !== ''
+
+    &&
+
+    Number.isFinite(
+      Number(quantity)
+    )
+
+    &&
+
+    Number(quantity) >= 0;
+
+
+  /*
+   * ÚNICAMENTE BLOQUEAN:
+   *
+   * - ubicación incorrecta
+   * - código incorrecto
+   * - no ingresar cantidad
+   */
+
+  document
+    .getElementById(
+      'cyclicNext'
+    )
+    .disabled =
+
+      !(
+
+        locationMatches &&
+        codeMatches &&
+        validQuantity
+
+      );
 }
 
 
 /*************************************************
- * GUARDAR CÍCLICO
+ * SIGUIENTE
  *************************************************/
+
+document
+  .getElementById(
+    'cyclicNext'
+  )
+  .addEventListener(
+    'click',
+    saveCyclicTask
+  );
+
 
 async function saveCyclicTask() {
 
@@ -3210,58 +3434,54 @@ async function saveCyclicTask() {
     ];
 
 
-  cyclic.next.disabled =
+  validateCyclicTask();
+
+
+  const button =
+    document.getElementById(
+      'cyclicNext'
+    );
+
+
+  if (
+    button.disabled
+  ) {
+
+    return;
+  }
+
+
+  button.disabled =
     true;
 
 
-  cyclic.next.textContent =
+  button.textContent =
     'Guardando...';
 
 
   try {
 
-    const response =
-      await fetch(
-        API_URL,
-        {
-
-          method: 'POST',
-
-          headers: {
-            'Content-Type':
-              'text/plain;charset=utf-8'
-          },
-
-          body:
-            JSON.stringify({
-
-              action:
-                'cyclicCount',
-
-              token:
-                authToken,
-
-              idAsignacion:
-                assignment.id,
-
-              ubicacion:
-                cyclic.location.value,
-
-              codigo:
-                cyclic.code.value,
-
-              cantidad:
-                Number(
-                  cyclic.quantity.value
-                )
-
-            })
-        }
-      );
-
-
     const result =
-      await response.json();
+      await apiPost({
+
+        action:
+          'cyclicCount',
+
+        token:
+          authToken,
+
+        ubicacion:
+          confirmedLocation.value,
+
+        codigo:
+          confirmedCode.value,
+
+        cantidad:
+          Number(
+            cyclicQuantity.value
+          )
+
+      });
 
 
     if (!result.ok) {
@@ -3272,15 +3492,22 @@ async function saveCyclicTask() {
     }
 
 
+    /*
+     * Actualiza tabla para mostrar
+     * Stock Almacen y Estado Conteo.
+     */
+
+    await loadInventory();
+
+
     cyclicCurrentIndex++;
 
 
     if (
-      cyclicCurrentIndex >=
-      cyclicAssignments.length
+      cyclicCurrentIndex >= 3
     ) {
 
-      showCyclicCompleted();
+      finishCyclicTask();
 
     } else {
 
@@ -3295,80 +3522,137 @@ async function saveCyclicTask() {
     );
 
 
-    cyclic.next.disabled =
-      false;
-
-
-  } finally {
-
-    cyclic.next.textContent =
-      'Siguiente';
+    validateCyclicTask();
   }
 }
 
 
 /*************************************************
- * CÍCLICO COMPLETADO
+ * FINALIZAR CÍCLICO
  *************************************************/
 
-function showCyclicCompleted() {
+function finishCyclicTask() {
 
-  cyclic.progress.textContent =
-    'Completado';
+  document
+    .getElementById(
+      'cyclicTask'
+    )
+    .classList
+    .add('hidden');
 
 
-  cyclic.task.innerHTML = `
+  document
+    .getElementById(
+      'cyclicCompleted'
+    )
+    .classList
+    .remove('hidden');
 
-    <div class="text-center py-10">
 
-      <div
-        class="
-          text-6xl
-          text-emerald-600
-          mb-4
-        "
-      >
-        ✓
-      </div>
+  document
+    .getElementById(
+      'cyclicProgress'
+    )
+    .textContent =
+      '3 de 3 completadas';
+}
 
-      <h3 class="text-2xl font-bold">
-        Conteo completado
-      </h3>
 
-      <p class="text-slate-500 mt-2">
+document
+  .getElementById(
+    'finishCyclic'
+  )
+  .addEventListener(
+    'click',
+    function() {
 
-        Se completaron
-        ${cyclicAssignments.length}
-        ubicaciones.
+      cyclicModal
+        .classList
+        .add('hidden');
 
-      </p>
 
-      <button
-        onclick="location.reload()"
-        class="
-          mt-6
-          px-6 py-3
-          rounded-xl
-          bg-emerald-600
-          text-white
-          font-bold
-        "
-      >
-        Finalizar
-      </button>
+      resetCyclic();
 
-    </div>
-  `;
+    }
+  );
+
+
+function resetCyclic() {
+
+  cyclicAssignments =
+    [];
+
+
+  cyclicCurrentIndex =
+    0;
+
+
+  document
+    .getElementById(
+      'cyclicStart'
+    )
+    .classList
+    .remove('hidden');
+
+
+  document
+    .getElementById(
+      'cyclicTask'
+    )
+    .classList
+    .add('hidden');
+
+
+  document
+    .getElementById(
+      'cyclicCompleted'
+    )
+    .classList
+    .add('hidden');
+
+
+  document
+    .getElementById(
+      'cyclicProgress'
+    )
+    .textContent =
+      '3 posiciones aleatorias';
 }
 
 
 /*************************************************
- * UTILIDADES
+ * FUNCIONES GENERALES
  *************************************************/
 
-function normalizeCyclic(
-  value
-) {
+async function apiPost(data) {
+
+  const response =
+    await fetch(
+      API_URL,
+      {
+
+        method:
+          'POST',
+
+        headers: {
+
+          'Content-Type':
+            'text/plain;charset=utf-8'
+
+        },
+
+        body:
+          JSON.stringify(data)
+
+      }
+    );
+
+
+  return await response.json();
+}
+
+
+function normalizeText(value) {
 
   return String(
     value || ''
@@ -3378,9 +3662,7 @@ function normalizeCyclic(
 }
 
 
-function escapeHtml(
-  value
-) {
+function escapeHtml(value) {
 
   const div =
     document.createElement(
@@ -3398,11 +3680,12 @@ function escapeHtml(
 }
 
 
-function setLoading(
-  value
-) {
+function setLoading(value) {
 
-  elements.loading
+  document
+    .getElementById(
+      'loadingIndicator'
+    )
     .classList
     .toggle(
       'hidden',
@@ -3411,27 +3694,18 @@ function setLoading(
 }
 
 
-function validateApiUrl() {
-
-  if (
-    API_URL.includes(
-      'REEMPLAZA_AQUI_TU_ID'
-    )
-  ) {
-
-    throw new Error(
-      'Debes configurar la URL de Apps Script'
-    );
-  }
-}
-
-
 function showMessage(
   text,
   type
 ) {
 
-  elements.message.className =
+  const element =
+    document.getElementById(
+      'messageContainer'
+    );
+
+
+  element.className =
 
     'mb-5 rounded-xl px-4 py-3 '
 
@@ -3439,25 +3713,25 @@ function showMessage(
 
     (
       type === 'error'
+
         ? 'bg-red-100 text-red-700'
+
         : 'bg-emerald-100 text-emerald-700'
     );
 
 
-  elements.message.textContent =
+  element.textContent =
     text;
 
 
-  elements.message
-    .classList
+  element.classList
     .remove('hidden');
 
 
   setTimeout(
     function() {
 
-      elements.message
-        .classList
+      element.classList
         .add('hidden');
 
     },
@@ -3473,9 +3747,7 @@ function showAuthMessage(
 ) {
 
   const element =
-    document.getElementById(
-      id
-    );
+    document.getElementById(id);
 
 
   element.className =
@@ -3486,7 +3758,9 @@ function showAuthMessage(
 
     (
       success
+
         ? 'bg-emerald-100 text-emerald-700'
+
         : 'bg-red-100 text-red-700'
     );
 
@@ -3500,17 +3774,41 @@ function showAuthMessage(
 }
 
 
+function validateApiUrl() {
+
+  if (
+    API_URL.includes(
+      'REEMPLAZA_AQUI_TU_ID'
+    )
+  ) {
+
+    throw new Error(
+      'Debes colocar tu URL de Apps Script en API_URL'
+    );
+  }
+}
+
+
 /*************************************************
- * INICIAR PÁGINA
+ * INICIAR
  *************************************************/
 
 document.addEventListener(
   'DOMContentLoaded',
   function() {
 
-    validateApiUrl();
+    try {
 
-    checkExistingSession();
+      validateApiUrl();
+
+      checkExistingSession();
+
+    } catch (error) {
+
+      alert(
+        error.message
+      );
+    }
 
   }
 );
