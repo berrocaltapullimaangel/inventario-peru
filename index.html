@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Sistema de gestión de inventario para almacenes en Perú"
+  >
+
+  <title>Inventario Perú</title>
+
+  <!-- Tailwind CSS vía CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          boxShadow: {
+            card: '0 10px 30px rgba(15, 23, 42, 0.08)'
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(59, 130, 246, 0.08),
+          transparent 35%
+        ),
+        #f8fafc;
+    }
+
+    .loading-spinner {
+      width: 22px;
+      height: 22px;
+      border: 3px solid #e2e8f0;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .modal-backdrop {
+      backdrop-filter: blur(3px);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-slate-800">
+
+  <!-- Header -->
+  <header class="bg-slate-950 text-white">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6"
+    >
+      <div
+        class="flex flex-col md:flex-row md:items-center
+               md:justify-between gap-4"
+      >
+        <div>
+          <div
+            class="flex items-center gap-3"
+          >
+            <div
+              class="w-11 h-11 rounded-xl bg-blue-600
+                     flex items-center justify-center
+                     font-bold text-xl"
+            >
+              IP
+            </div>
+
+            <div>
+              <h1 class="text-2xl font-bold">
+                Inventario Perú
+              </h1>
+
+              <p class="text-slate-400 text-sm">
+                Gestión nacional de almacenes
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-3">
+          <button
+            id="refreshButton"
+            type="button"
+            class="px-4 py-2 rounded-lg border border-slate-700
+                   hover:bg-slate-800 transition"
+          >
+            Actualizar
+          </button>
+
+          <button
+            id="openMovementModal"
+            type="button"
+            class="px-4 py-2 rounded-lg bg-blue-600
+                   hover:bg-blue-500 transition font-semibold"
+          >
+            + Registrar movimiento
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <main
+    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+  >
+
+    <!-- Mensajes -->
+    <div
+      id="messageContainer"
+      class="hidden mb-6"
+    ></div>
+
+
+    <!-- Métricas -->
+    <section
+      class="grid grid-cols-1 sm:grid-cols-2
+             lg:grid-cols-4 gap-4 mb-8"
+    >
+
+      <article
+        class="bg-white p-5 rounded-2xl shadow-card border
+               border-slate-100"
+      >
+        <p class="text-sm text-slate-500">
+          Productos
+        </p>
+
+        <p
+          id="totalProducts"
+          class="text-3xl font-bold mt-1"
+        >
+          0
+        </p>
+      </article>
+
+
+      <article
+        class="bg-white p-5 rounded-2xl shadow-card border
+               border-slate-100"
+      >
+        <p class="text-sm text-slate-500">
+          Unidades en stock
+        </p>
+
+        <p
+          id="totalStock"
+          class="text-3xl font-bold mt-1"
+        >
+          0
+        </p>
+      </article>
+
+
+      <article
+        class="bg-white p-5 rounded-2xl shadow-card border
+               border-slate-100"
+      >
+        <p class="text-sm text-slate-500">
+          Stock bajo
+        </p>
+
+        <p
+          id="lowStockCount"
+          class="text-3xl font-bold mt-1 text-red-600"
+        >
+          0
+        </p>
+      </article>
+
+
+      <article
+        class="bg-white p-5 rounded-2xl shadow-card border
+               border-slate-100"
+      >
+        <p class="text-sm text-slate-500">
+          Ubicaciones
+        </p>
+
+        <p
+          id="locationsCount"
+          class="text-3xl font-bold mt-1"
+        >
+          0
+        </p>
+      </article>
+
+    </section>
+
+
+    <!-- Buscador -->
+    <section
+      class="bg-white rounded-2xl shadow-card
+             border border-slate-100 p-5 mb-6"
+    >
+
+      <div
+        class="flex flex-col md:flex-row md:items-center
+               gap-4"
+      >
+
+        <div class="flex-1">
+          <label
+            for="searchInput"
+            class="block text-sm font-medium mb-2"
+          >
+            Buscar producto
+          </label>
+
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Nombre o código..."
+            autocomplete="off"
+            class="w-full px-4 py-3 rounded-xl border
+                   border-slate-300 focus:outline-none
+                   focus:ring-2 focus:ring-blue-500"
+          >
+        </div>
+
+
+        <div class="md:w-56">
+          <label
+            for="locationFilter"
+            class="block text-sm font-medium mb-2"
+          >
+            Ubicación
+          </label>
+
+          <select
+            id="locationFilter"
+            class="w-full px-4 py-3 rounded-xl border
+                   border-slate-300 bg-white focus:outline-none
+                   focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">
+              Todas
+            </option>
+          </select>
+        </div>
+
+
+        <div class="md:w-48">
+          <label
+            for="stockFilter"
+            class="block text-sm font-medium mb-2"
+          >
+            Estado
+          </label>
+
+          <select
+            id="stockFilter"
+            class="w-full px-4 py-3 rounded-xl border
+                   border-slate-300 bg-white focus:outline-none
+                   focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">
+              Todos
+            </option>
+
+            <option value="low">
+              Stock bajo
+            </option>
+
+            <option value="normal">
+              Stock normal
+            </option>
+          </select>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Tabla -->
+    <section
+      class="bg-white rounded-2xl shadow-card
+             border border-slate-100 overflow-hidden"
+    >
+
+      <div
+        class="px-5 py-4 border-b border-slate-200
+               flex items-center justify-between"
+      >
+        <div>
+          <h2 class="font-bold text-lg">
+            Inventario
+          </h2>
+
+          <p
+            id="resultsLabel"
+            class="text-sm text-slate-500"
+          >
+            Cargando...
+          </p>
+        </div>
+
+        <div
+          id="loadingIndicator"
+          class="loading-spinner"
+        ></div>
+      </div>
+
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+
+          <thead class="bg-slate-50 text-slate-600 text-sm">
+            <tr>
+              <th class="px-5 py-3">
+                Código
+              </th>
+
+              <th class="px-5 py-3">
+                Producto
+              </th>
+
+              <th class="px-5 py-3">
+                Categoría
+              </th>
+
+              <th class="px-5 py-3">
+                Ubicación
+              </th>
+
+              <th class="px-5 py-3 text-right">
+                Stock
+              </th>
+
+              <th class="px-5 py-3">
+                Estado
+              </th>
+
+              <th class="px-5 py-3">
+                Actualizado
+              </th>
+            </tr>
+          </thead>
+
+          <tbody
+            id="inventoryTableBody"
+            class="divide-y divide-slate-100"
+          ></tbody>
+
+        </table>
+      </div>
+
+
+      <div
+        id="emptyState"
+        class="hidden py-14 text-center text-slate-500"
+      >
+        No se encontraron productos.
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- Modal -->
+  <div
+    id="movementModal"
+    class="hidden fixed inset-0 z-50"
+  >
+
+    <div
+      id="modalBackdrop"
+      class="absolute inset-0 bg-slate-950/60 modal-backdrop"
+    ></div>
+
+
+    <div
+      class="relative min-h-full flex items-center justify-center
+             p-4"
+    >
+
+      <div
+        class="bg-white rounded-2xl shadow-2xl
+               w-full max-w-lg"
+      >
+
+        <div
+          class="px-6 py-5 border-b border-slate-200
+                 flex justify-between items-center"
+        >
+          <div>
+            <h2 class="text-xl font-bold">
+              Registrar movimiento
+            </h2>
+
+            <p class="text-sm text-slate-500">
+              Entrada o salida de inventario
+            </p>
+          </div>
+
+          <button
+            id="closeMovementModal"
+            type="button"
+            class="text-2xl text-slate-400
+                   hover:text-slate-700"
+          >
+            &times;
+          </button>
+        </div>
+
+
+        <form
+          id="movementForm"
+          class="p-6 space-y-5"
+        >
+
+          <div>
+            <label
+              for="productSelect"
+              class="block text-sm font-medium mb-2"
+            >
+              Producto
+            </label>
+
+            <select
+              id="productSelect"
+              required
+              class="w-full px-4 py-3 rounded-xl border
+                     border-slate-300 bg-white focus:outline-none
+                     focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">
+                Seleccione...
+              </option>
+            </select>
+          </div>
+
+
+          <div>
+            <label
+              for="movementType"
+              class="block text-sm font-medium mb-2"
+            >
+              Tipo
+            </label>
+
+            <select
+              id="movementType"
+              required
+              class="w-full px-4 py-3 rounded-xl border
+                     border-slate-300 bg-white focus:outline-none
+                     focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="entrada">
+                Entrada
+              </option>
+
+              <option value="salida">
+                Salida
+              </option>
+            </select>
+          </div>
+
+
+          <div>
+            <label
+              for="movementQuantity"
+              class="block text-sm font-medium mb-2"
+            >
+              Cantidad
+            </label>
+
+            <input
+              id="movementQuantity"
+              type="number"
+              min="1"
+              step="1"
+              required
+              class="w-full px-4 py-3 rounded-xl border
+                     border-slate-300 focus:outline-none
+                     focus:ring-2 focus:ring-blue-500"
+            >
+          </div>
+
+
+          <div>
+            <label
+              for="movementObservation"
+              class="block text-sm font-medium mb-2"
+            >
+              Observación
+            </label>
+
+            <textarea
+              id="movementObservation"
+              rows="3"
+              maxlength="500"
+              placeholder="Ej. Recepción OC-001..."
+              class="w-full px-4 py-3 rounded-xl border
+                     border-slate-300 focus:outline-none
+                     focus:ring-2 focus:ring-blue-500"
+            ></textarea>
+          </div>
+
+
+          <!--
+            Si WRITE_TOKEN está configurado en Apps Script,
+            este campo permite introducirlo sin almacenarlo
+            directamente en el código de GitHub.
+          -->
+          <div>
+            <label
+              for="writeToken"
+              class="block text-sm font-medium mb-2"
+            >
+              Clave de operación
+              <span class="text-slate-400">
+                (opcional)
+              </span>
+            </label>
+
+            <input
+              id="writeToken"
+              type="password"
+              autocomplete="off"
+              placeholder="Solo si fue configurada"
+              class="w-full px-4 py-3 rounded-xl border
+                     border-slate-300 focus:outline-none
+                     focus:ring-2 focus:ring-blue-500"
+            >
+          </div>
+
+
+          <div
+            class="flex justify-end gap-3 pt-2"
+          >
+
+            <button
+              id="cancelMovement"
+              type="button"
+              class="px-5 py-3 rounded-xl border
+                     border-slate-300 hover:bg-slate-50"
+            >
+              Cancelar
+            </button>
+
+            <button
+              id="submitMovement"
+              type="submit"
+              class="px-5 py-3 rounded-xl bg-blue-600
+                     text-white font-semibold hover:bg-blue-500
+                     disabled:opacity-50"
+            >
+              Registrar
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="py-8 text-center text-sm text-slate-500">
+    Sistema de Inventario · Perú
+  </footer>
+
+
+  <script>
+    /*
+     * ==========================================
+     * CONFIGURACIÓN
+     * ==========================================
+     *
+     * Sustituye esta URL por la URL /exec
+     * de tu Google Apps Script Web App.
+     */
+    const API_URL =
+      'https://script.google.com/macros/s/AKfycbzTFceftrXTUHnCYrsef9t39HuxrUIPQhIi9KbAnCNFhUxVB-JLYxRbNM3BM1FDio7s/exec';
+
+
+    let inventory = [];
+
+
+    const elements = {
+      tableBody:
+        document.getElementById('inventoryTableBody'),
+
+      search:
+        document.getElementById('searchInput'),
+
+      location:
+        document.getElementById('locationFilter'),
+
+      stock:
+        document.getElementById('stockFilter'),
+
+      loading:
+        document.getElementById('loadingIndicator'),
+
+      empty:
+        document.getElementById('emptyState'),
+
+      results:
+        document.getElementById('resultsLabel'),
+
+      totalProducts:
+        document.getElementById('totalProducts'),
+
+      totalStock:
+        document.getElementById('totalStock'),
+
+      lowStock:
+        document.getElementById('lowStockCount'),
+
+      locations:
+        document.getElementById('locationsCount'),
+
+      modal:
+        document.getElementById('movementModal'),
+
+      productSelect:
+        document.getElementById('productSelect'),
+
+      form:
+        document.getElementById('movementForm'),
+
+      submitButton:
+        document.getElementById('submitMovement'),
+
+      message:
+        document.getElementById('messageContainer')
+    };
+
+
+    document.addEventListener('DOMContentLoaded', init);
+
+
+    function init() {
+      bindEvents();
+      loadInventory();
+    }
+
+
+    function bindEvents() {
+
+      elements.search.addEventListener(
+        'input',
+        renderInventory
+      );
+
+      elements.location.addEventListener(
+        'change',
+        renderInventory
+      );
+
+      elements.stock.addEventListener(
+        'change',
+        renderInventory
+      );
+
+
+      document
+        .getElementById('refreshButton')
+        .addEventListener('click', loadInventory);
+
+
+      document
+        .getElementById('openMovementModal')
+        .addEventListener('click', openModal);
+
+
+      document
+        .getElementById('closeMovementModal')
+        .addEventListener('click', closeModal);
+
+
+      document
+        .getElementById('cancelMovement')
+        .addEventListener('click', closeModal);
+
+
+      document
+        .getElementById('modalBackdrop')
+        .addEventListener('click', closeModal);
+
+
+      elements.form.addEventListener(
+        'submit',
+        registerMovement
+      );
+    }
+
+
+    /**
+     * Descarga el inventario.
+     */
+    async function loadInventory() {
+      setLoading(true);
+
+      try {
+
+        validateApiUrl();
+
+        const response = await fetch(
+          API_URL + '?action=list&_=' + Date.now(),
+          {
+            method: 'GET',
+            cache: 'no-store'
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            'Error HTTP ' + response.status
+          );
+        }
+
+        const result = await response.json();
+
+        if (!result.ok) {
+          throw new Error(
+            result.error || 'No se pudo cargar el inventario'
+          );
+        }
+
+        inventory = Array.isArray(result.data)
+          ? result.data
+          : [];
+
+        updateDashboard();
+        fillLocationFilter();
+        fillProductSelect();
+        renderInventory();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+          'No se pudo cargar el inventario: ' +
+          error.message,
+          'error'
+        );
+
+        elements.results.textContent =
+          'Error al cargar información';
+
+      } finally {
+        setLoading(false);
+      }
+    }
+
+
+    /**
+     * Buscador y filtros en tiempo real.
+     */
+    function getFilteredInventory() {
+
+      const query =
+        elements.search.value
+          .trim()
+          .toLowerCase();
+
+      const location =
+        elements.location.value;
+
+      const stockFilter =
+        elements.stock.value;
+
+
+      return inventory.filter(product => {
+
+        const matchesSearch =
+          !query ||
+          String(product.producto || '')
+            .toLowerCase()
+            .includes(query) ||
+          String(product.codigo || '')
+            .toLowerCase()
+            .includes(query);
+
+
+        const matchesLocation =
+          !location ||
+          product.ubicacion === location;
+
+
+        const isLow =
+          Number(product.stock) <=
+          Number(product.stockMinimo);
+
+
+        let matchesStock = true;
+
+        if (stockFilter === 'low') {
+          matchesStock = isLow;
+        }
+
+        if (stockFilter === 'normal') {
+          matchesStock = !isLow;
+        }
+
+
+        return (
+          matchesSearch &&
+          matchesLocation &&
+          matchesStock
+        );
+      });
+    }
+
+
+    /**
+     * Renderiza tabla.
+     */
+    function renderInventory() {
+
+      const products = getFilteredInventory();
+
+      elements.tableBody.innerHTML = '';
+
+      elements.results.textContent =
+        products.length +
+        (products.length === 1
+          ? ' producto'
+          : ' productos');
+
+
+      elements.empty.classList.toggle(
+        'hidden',
+        products.length !== 0
+      );
+
+
+      products.forEach(product => {
+
+        const stock =
+          Number(product.stock || 0);
+
+        const minimum =
+          Number(product.stockMinimo || 0);
+
+        const lowStock =
+          stock <= minimum;
+
+
+        const row =
+          document.createElement('tr');
+
+        row.className =
+          lowStock
+            ? 'bg-red-50 hover:bg-red-100 transition'
+            : 'hover:bg-slate-50 transition';
+
+
+        row.innerHTML = `
+          <td class="px-5 py-4 font-mono text-sm">
+            ${escapeHtml(product.codigo)}
+          </td>
+
+          <td class="px-5 py-4 font-medium">
+            ${escapeHtml(product.producto)}
+          </td>
+
+          <td class="px-5 py-4 text-slate-600">
+            ${escapeHtml(product.categoria)}
+          </td>
+
+          <td class="px-5 py-4">
+            ${escapeHtml(product.ubicacion)}
+          </td>
+
+          <td class="
+            px-5 py-4 text-right font-bold
+            ${lowStock ? 'text-red-700' : ''}
+          ">
+            ${formatNumber(stock)}
+          </td>
+
+          <td class="px-5 py-4">
+            ${
+              lowStock
+                ? `
+                  <span
+                    class="inline-flex px-2.5 py-1 rounded-full
+                           bg-red-100 text-red-700
+                           text-xs font-semibold"
+                  >
+                    Stock bajo
+                  </span>
+                `
+                : `
+                  <span
+                    class="inline-flex px-2.5 py-1 rounded-full
+                           bg-emerald-100 text-emerald-700
+                           text-xs font-semibold"
+                  >
+                    Disponible
+                  </span>
+                `
+            }
+          </td>
+
+          <td class="px-5 py-4 text-sm text-slate-500">
+            ${formatDate(product.actualizado)}
+          </td>
+        `;
+
+        elements.tableBody.appendChild(row);
+      });
+    }
+
+
+    /**
+     * Métricas superiores.
+     */
+    function updateDashboard() {
+
+      const totalProducts =
+        inventory.length;
+
+
+      const totalStock =
+        inventory.reduce(
+          (sum, item) =>
+            sum + Number(item.stock || 0),
+          0
+        );
+
+
+      const lowStock =
+        inventory.filter(
+          item =>
+            Number(item.stock) <=
+            Number(item.stockMinimo)
+        ).length;
+
+
+      const locations =
+        new Set(
+          inventory
+            .map(item => item.ubicacion)
+            .filter(Boolean)
+        ).size;
+
+
+      elements.totalProducts.textContent =
+        formatNumber(totalProducts);
+
+      elements.totalStock.textContent =
+        formatNumber(totalStock);
+
+      elements.lowStock.textContent =
+        formatNumber(lowStock);
+
+      elements.locations.textContent =
+        formatNumber(locations);
+    }
+
+
+    function fillLocationFilter() {
+
+      const selected =
+        elements.location.value;
+
+
+      const locations = [
+        ...new Set(
+          inventory
+            .map(item => item.ubicacion)
+            .filter(Boolean)
+        )
+      ].sort(
+        (a, b) =>
+          a.localeCompare(b, 'es')
+      );
+
+
+      elements.location.innerHTML =
+        '<option value="">Todas</option>';
+
+
+      locations.forEach(location => {
+
+        const option =
+          document.createElement('option');
+
+        option.value = location;
+        option.textContent = location;
+
+        elements.location.appendChild(option);
+      });
+
+
+      if (locations.includes(selected)) {
+        elements.location.value = selected;
+      }
+    }
+
+
+    function fillProductSelect() {
+
+      elements.productSelect.innerHTML =
+        '<option value="">Seleccione...</option>';
+
+
+      const sorted =
+        [...inventory].sort(
+          (a, b) =>
+            String(a.producto)
+              .localeCompare(
+                String(b.producto),
+                'es'
+              )
+        );
+
+
+      sorted.forEach(product => {
+
+        const option =
+          document.createElement('option');
+
+        option.value =
+          product.codigo;
+
+        option.textContent =
+          product.codigo +
+          ' — ' +
+          product.producto +
+          ' (Stock: ' +
+          product.stock +
+          ')';
+
+        elements.productSelect
+          .appendChild(option);
+      });
+    }
+
+
+    /**
+     * Registrar movimiento.
+     */
+    async function registerMovement(event) {
+
+      event.preventDefault();
+
+
+      const codigo =
+        elements.productSelect.value;
+
+
+      const tipo =
+        document
+          .getElementById('movementType')
+          .value;
+
+
+      const cantidad =
+        Number(
+          document
+            .getElementById('movementQuantity')
+            .value
+        );
+
+
+      const observacion =
+        document
+          .getElementById('movementObservation')
+          .value
+          .trim();
+
+
+      const token =
+        document
+          .getElementById('writeToken')
+          .value;
+
+
+      if (!codigo) {
+        showMessage(
+          'Seleccione un producto.',
+          'error'
+        );
+        return;
+      }
+
+
+      if (
+        !Number.isFinite(cantidad) ||
+        cantidad <= 0
+      ) {
+        showMessage(
+          'Introduzca una cantidad válida.',
+          'error'
+        );
+        return;
+      }
+
+
+      const selectedProduct =
+        inventory.find(
+          item => item.codigo === codigo
+        );
+
+
+      if (
+        tipo === 'salida' &&
+        selectedProduct &&
+        cantidad > Number(selectedProduct.stock)
+      ) {
+        showMessage(
+          'La salida supera el stock disponible.',
+          'error'
+        );
+        return;
+      }
+
+
+      setSubmitting(true);
+
+
+      try {
+
+        validateApiUrl();
+
+
+        /*
+         * Se usa text/plain para mantener la petición simple
+         * desde un frontend estático y evitar enviar un
+         * Content-Type application/json innecesario.
+         *
+         * El contenido continúa siendo JSON.
+         */
+        const response =
+          await fetch(
+            API_URL,
+            {
+              method: 'POST',
+
+              headers: {
+                'Content-Type':
+                  'text/plain;charset=utf-8'
+              },
+
+              body: JSON.stringify({
+                action: 'movement',
+                codigo,
+                tipo,
+                cantidad,
+                observacion,
+                token
+              })
+            }
+          );
+
+
+        if (!response.ok) {
+          throw new Error(
+            'Error HTTP ' + response.status
+          );
+        }
+
+
+        const result =
+          await response.json();
+
+
+        if (!result.ok) {
+          throw new Error(
+            result.error ||
+            'No se pudo registrar el movimiento'
+          );
+        }
+
+
+        closeModal();
+
+        showMessage(
+          'Movimiento registrado correctamente.',
+          'success'
+        );
+
+
+        await loadInventory();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+          'No se pudo registrar el movimiento: ' +
+          error.message,
+          'error'
+        );
+
+      } finally {
+        setSubmitting(false);
+      }
+    }
+
+
+    function openModal() {
+
+      elements.modal.classList.remove('hidden');
+
+      document.body.classList.add(
+        'overflow-hidden'
+      );
+
+      setTimeout(
+        () => elements.productSelect.focus(),
+        50
+      );
+    }
+
+
+    function closeModal() {
+
+      elements.modal.classList.add('hidden');
+
+      document.body.classList.remove(
+        'overflow-hidden'
+      );
+
+      elements.form.reset();
+    }
+
+
+    function setLoading(value) {
+
+      elements.loading.classList.toggle(
+        'hidden',
+        !value
+      );
+    }
+
+
+    function setSubmitting(value) {
+
+      elements.submitButton.disabled =
+        value;
+
+      elements.submitButton.textContent =
+        value
+          ? 'Registrando...'
+          : 'Registrar';
+    }
+
+
+    function showMessage(text, type = 'success') {
+
+      const isSuccess =
+        type === 'success';
+
+
+      elements.message.className =
+        'mb-6 rounded-xl px-4 py-3 border ' +
+        (
+          isSuccess
+            ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+            : 'bg-red-50 border-red-200 text-red-800'
+        );
+
+
+      elements.message.textContent =
+        text;
+
+
+      elements.message.classList.remove(
+        'hidden'
+      );
+
+
+      window.clearTimeout(
+        showMessage.timeout
+      );
+
+
+      showMessage.timeout =
+        window.setTimeout(
+          () => {
+            elements.message.classList.add(
+              'hidden'
+            );
+          },
+          6000
+        );
+    }
+
+
+    function validateApiUrl() {
+
+      if (
+        !API_URL ||
+        API_URL.includes(
+          'REEMPLAZAR_CON_TU_ID'
+        )
+      ) {
+        throw new Error(
+          'Debes configurar API_URL en index.html'
+        );
+      }
+    }
+
+
+    /**
+     * Evita insertar HTML proveniente de Sheets.
+     */
+    function escapeHtml(value) {
+
+      const div =
+        document.createElement('div');
+
+      div.textContent =
+        String(value ?? '');
+
+      return div.innerHTML;
+    }
+
+
+    function formatNumber(value) {
+      return new Intl.NumberFormat(
+        'es-PE'
+      ).format(Number(value || 0));
+    }
+
+
+    function formatDate(value) {
+
+      if (!value) {
+        return '—';
+      }
+
+
+      const date =
+        new Date(value);
+
+
+      if (Number.isNaN(date.getTime())) {
+        return '—';
+      }
+
+
+      return new Intl.DateTimeFormat(
+        'es-PE',
+        {
+          dateStyle: 'short',
+          timeStyle: 'short',
+          timeZone: 'America/Lima'
+        }
+      ).format(date);
+    }
+
+  </script>
+
+</body>
+</html>
